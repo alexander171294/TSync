@@ -1,6 +1,6 @@
 FROM node:18-alpine
 WORKDIR /app
-COPY . .
+COPY ./tsync-bot .
 RUN npm install
 RUN npm run build
 ENV TZ="America/Argentina/Buenos_Aires"
