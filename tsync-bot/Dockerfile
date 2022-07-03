@@ -1,6 +1,6 @@
 FROM node:18-alpine
 WORKDIR /app
-COPY ./asimosi-bot .
+COPY . .
 RUN npm install
 RUN npm run build
 ENV TZ="America/Argentina/Buenos_Aires"
