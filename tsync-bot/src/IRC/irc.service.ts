@@ -29,7 +29,7 @@ export class IRCService {
           this.client.say('NickServ', 'identify ' + environment.irc.password);
         });
         this.client.addListener('message', (from, to, message: string) => {
-            if(environment.irc.ignore.find(d => d==from)) {
+            if(environment.irc.ignore.find(d => d.toLowerCase()==from.toLowerCase())) {
                 return;
             }
             if (to.match(/^[#&]/)) {
