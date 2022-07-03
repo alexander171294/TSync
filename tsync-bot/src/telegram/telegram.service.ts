@@ -26,19 +26,20 @@ export class TelegramService {
                 ctx,
                 update: ctx.update as unknown as TelegramMessageUpdate,
             });
+            this.eventSrv.telegramMessage.next(ctx.message.text);
         });
         this.logger.debug('launching...');
         this.bot.launch().then(() => {
             this.logger.log('Telegram bot launched...');
+        });
+        this.eventSrv.ircMessage.subscribe(msg => {
+            this.send(environment.telegram.chatID, msg);
         });
         this.bot.start((ctx) => {
             this.messages.next({
                 type: 'start',
                 ctx,
                 update: ctx.update as unknown as TelegramMessageUpdate,
-            });
-            this.eventSrv.ircMessage.subscribe(msg => {
-                this.send(environment.telegram.chatID, msg);
             });
         });
         this.logger.debug('Settings sigterms');
