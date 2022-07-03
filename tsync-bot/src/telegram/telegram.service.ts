@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { TelegramMessageUpdate } from './telegram.domain';
 import { Injectable, Logger } from "@nestjs/common";
 import { Context, Telegraf } from 'telegraf';
+import { Update } from 'telegraf/typings/core/types/typegram';
 
 @Injectable()
 export class TelegramService {
@@ -42,6 +43,10 @@ export class TelegramService {
                 update: ctx.update as unknown as TelegramMessageUpdate,
             });
         });
+        this.createCommand('hjoin', (ctx) => {
+           const cttx = ctx.update as unknown as TelegramMessageUpdate;
+           console.log(cttx);
+        });
         this.logger.debug('Settings sigterms');
         process.once('SIGINT', () => this.bot.stop('SIGINT'));
         process.once('SIGTERM', () => this.bot.stop('SIGTERM'));
@@ -52,13 +57,16 @@ export class TelegramService {
         return this.messages;
     }
     
-    public createCommand(commandName: string) {
+    public createCommand(commandName: string, cb?: (ctx: Context<Update>) => void) {
         this.bot.command(commandName, (ctx) => {
             this.messages.next({
                 type: 'commandName',
                 ctx,
                 update: ctx.update as unknown as TelegramMessageUpdate,
             });
+            if(cb) {
+                cb(ctx);
+            }
         });
     }
 
