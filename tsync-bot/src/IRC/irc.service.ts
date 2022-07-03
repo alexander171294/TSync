@@ -23,7 +23,11 @@ export class IRCService {
                 this.client.say(to, msg.replace(to, '').trim());
                 this.lastTo = to;
             } else if (this.lastTo) {
-                this.client.say(this.lastTo, msg.trim());
+                try {
+                    this.client.say(this.lastTo, msg.trim());
+                } catch(e) {
+                    this.logger.error('error sending message', e);
+                }
             }
           });
     }
