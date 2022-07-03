@@ -1,8 +1,8 @@
 export const environment = {
     httpPort: 3000,
     telegram: {
-        botApiKey: process.env.TELEGRAM_API_KEY ? process.env.TELEGRAM_API_KEY : '',
-        chatID: process.env.TELEGRAM_CHAT_ID ? process.env.TELEGRAM_CHAT_ID : '',
+        botApiKey: process.env.TELEGRAM_API_KEY ? process.env.TELEGRAM_API_KEY : ':',
+        chatID: process.env.TELEGRAM_CHAT_ID ? process.env.TELEGRAM_CHAT_ID : '-',
     },
     irc: {
         server: 'irc.hirana.net',
@@ -14,7 +14,7 @@ export const environment = {
             '#lataberna'
         ],
         ignore: [
-            'virgilo-alpine'
+            'virgilio-alpine'
         ]
     }
 };

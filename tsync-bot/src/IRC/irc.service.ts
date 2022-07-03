@@ -10,6 +10,8 @@ export class IRCService {
 
     private readonly logger = new Logger(IRCService.name);
 
+    private lastTo?: string;
+
     constructor(private evtSrv: EventService) {
         this.client = new NodeIRC.Client(environment.irc.server, environment.irc.botName, {
             channels: environment.irc.channels
@@ -18,7 +20,10 @@ export class IRCService {
           evtSrv.telegramMessage.subscribe(msg => {
             const to = msg.split(' ')[0];
             if(to.match(/^[#&]/)) {
-                this.client.say(to, msg.replace(to, ''));
+                this.client.say(to, msg.replace(to, '').trim());
+                this.lastTo = to;
+            } else if (this.lastTo) {
+                this.client.say(this.lastTo, msg.trim());
             }
           });
     }
